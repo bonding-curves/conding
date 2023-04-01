@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "conding"
+  site-url: "https://bonding-curves.github.io/conding"
+  description: "Python library for analysing and modelling bonding curves. This library is managed using nbdev with application development in python param panel."
+  repo-branch: main
+  repo-url: "https://github.com/bonding-curves/conding"
