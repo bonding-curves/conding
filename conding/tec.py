@@ -4,23 +4,23 @@
 __all__ = ['TECDashboard']
 
 # %% ../nbs/0_tec.ipynb 5
-class TECDashboard(DuneClient):
+class TECDashboard(DuneWrapper):
     "Interface to the TEC Dune Analytics dashboard."
     # def __init__(self, dune: DuneAnalytics):
     #     super(TECDashboard, self).__init__()
 
-    def holders_distribution(self):
-        df = self.fetch_query_results(1898888)
-        return df
-    
-    def holders_and_supply(self):
-        df = self.fetch_query_results(1898886)
-        return df
-    
-    def holders_over_time(self):
-        df = self.fetch_query_results(1898887)
-        return df
-    
-    # def price_chart(self):
-    #     df = self._fetch_dune(1898885)
+    # def holders_distribution(self):
+    #     df = self.fetch_query_results(1898888)
     #     return df
+    
+    # def holders_and_supply(self):
+    #     df = self.fetch_query_results(1898886)
+    #     return df
+    
+    # def holders_over_time(self):
+    #     df = self.fetch_query_results(1898887)
+    #     return df
+    
+    def price_chart(self):
+        df = self.fetch_query_results(1898885, [])
+        return df
