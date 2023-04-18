@@ -3,4 +3,4 @@ website:
     contents:
       - index.ipynb
       - 0_dune.ipynb
-      - 0_tec.ipynb
+      - 1_tec.ipynb
