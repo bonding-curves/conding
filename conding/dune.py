@@ -10,31 +10,32 @@ import pandas as pd
 from dune_client.types import QueryParameter
 from dune_client.client import DuneClient
 from dune_client.query import Query
+import diskcache
 
-# %% ../nbs/0_dune.ipynb 5
+# %% ../nbs/0_dune.ipynb 4
 class DuneWrapper:
-
-    def fetch_query_results(self, query_id, params, name="Sample Query"):
+    
+    def __init__(self):
         dotenv.load_dotenv()
-        dune = DuneClient(os.environ["DUNE_API_KEY"])
-
+        self.dune = DuneClient(os.environ["DUNE_API_KEY"])
+        self.cache = diskcache.Cache('cache')
+        
+    def refresh_into_dataframe(self, query_id, params=[], name="Sample Query", update_cache=False):
         params_formatted = []
-
         for parameter in params:          
             params_formatted.append(getattr(QueryParameter, parameter["type"] + "_type")(name=parameter["name"], value=parameter["value"]))
-        
-        if params_formatted:
-            query = Query(
-                name=name,
-                query_id=query_id,
-                params=params_formatted
-            )
+            
+        query = Query(
+            name=name,
+            query_id=query_id,
+            params=params_formatted
+        )
+
+        cache_key = f'refresh_into_dataframe-{query_id}'
+        if (cache_key in self.cache) and not update_cache:
+            df = self.cache[cache_key]
         else:
-            query = Query(
-                name=name,
-                query_id=query_id
-            )
-        
-        df = dune.refresh_into_dataframe(query)
+            df = self.dune.refresh_into_dataframe(query=query)
+            self.cache[cache_key] = df
         return df
 
