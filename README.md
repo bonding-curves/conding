@@ -13,16 +13,6 @@ tec = TECDashboard()
 tec.holders_distribution()
 ```
 
-    Unable to display output for mime type(s): application/javascript, application/vnd.holoviews_load.v0+json
-
-    Unable to display output for mime type(s): application/javascript, application/vnd.holoviews_load.v0+json
-
-<style>.bk-root, .bk-root .bk:before, .bk-root .bk:after {
-  font-family: var(--jp-ui-font-size1);
-  font-size: var(--jp-ui-font-size1);
-  color: var(--jp-ui-font-color1);
-}
-</style>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
