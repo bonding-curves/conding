@@ -5,84 +5,24 @@ conding
 
 ## Usage
 
-### Using as a Package
-
-pip install:
-
-``` sh
-pip install conding
-```
-
-Export your Dune API Key as an environment variable.
-
-``` sh
-export DUNE_API_KEY='<Your Key>'
-```
-
-### Local Development
-
-Clone the repository
-
-``` sh
-git clone git@github.com:bonding-curves/conding.git
-cd conding
-```
-
-Add your Dune API Key to the .env file.
-
-``` sh
-mv .env.template .env
-vi .env
-```
-
-Install the requirements with poetry. For instructions on installing
-poetry see: https://python-poetry.org/docs/
-
-``` sh
-poetry install --with dev
-poetry shell
-```
-
-### Using NBDev
-
-Run tests with nbdev
-
-``` sh
-nbdev_test
-```
-
-View documentation locally
-
-``` sh
-nbdev_preview
-```
-
-Export changes made to notebooks
-
-``` sh
-nbdev_export
-```
-
-See more options
-
-``` sh
-nbdev_help
-```
-
-## How to use
-
 ``` python
 from conding.tec import TECDashboard
-```
 
-``` python
 tec = TECDashboard()
-```
 
-``` python
 tec.holders_distribution()
 ```
 
+    Unable to display output for mime type(s): application/javascript, application/vnd.holoviews_load.v0+json
+
+    Unable to display output for mime type(s): application/javascript, application/vnd.holoviews_load.v0+json
+
+<style>.bk-root, .bk-root .bk:before, .bk-root .bk:after {
+  font-family: var(--jp-ui-font-size1);
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+}
+</style>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -201,3 +141,299 @@ tec.holders_distribution()
 </table>
 <p>545 rows × 5 columns</p>
 </div>
+
+``` python
+tec.abc_tributes()
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>action</th>
+      <th>sum(tribute)</th>
+      <th>tribute_total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-04-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>56.364000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-04-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>364.927505</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-05-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>502.690920</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-05-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>27525.756009</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-06-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>18.424300</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2022-06-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>9637.008165</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2022-07-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>46.280000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2022-07-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>875.231330</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2022-08-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>84.000440</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2022-08-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>3578.698760</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2022-09-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>440.034000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2022-09-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>6524.963118</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2022-10-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.448273</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2022-10-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>7265.726778</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2022-11-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>42.080000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2022-11-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>7948.406669</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2022-12-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>1.260000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2022-12-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>6767.473366</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2023-01-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.310000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2023-01-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>3886.310413</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2023-02-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.100000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2023-02-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>4413.471438</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2023-03-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>3.100000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2023-03-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>13877.419531</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>2023-04-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>460.600000</td>
+      <td>95546.620837</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2023-04-01T00:00:00Z</td>
+      <td>Sell</td>
+      <td>1225.535821</td>
+      <td>95546.620837</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+## Installation
+
+### Installing as a Package
+
+pip install:
+
+``` sh
+pip install conding
+```
+
+Export your Dune API Key as an environment variable.
+
+``` sh
+export DUNE_API_KEY='<Your Key>'
+```
+
+### Local Development
+
+Clone the repository
+
+``` sh
+git clone git@github.com:bonding-curves/conding.git
+cd conding
+```
+
+Add your Dune API Key to the .env file.
+
+``` sh
+mv .env.template .env
+vi .env
+```
+
+Install the requirements with poetry. For instructions on installing
+poetry see: https://python-poetry.org/docs/
+
+``` sh
+poetry install --with dev
+poetry shell
+```
+
+### Using NBDev
+
+When first running the package, install git hooks and quarto
+
+``` sh
+nbdev_install_hooks
+nbdev_install_quarto
+```
+
+Run tests with nbdev
+
+``` sh
+nbdev_test
+```
+
+View documentation locally
+
+``` sh
+nbdev_preview
+```
+
+Export changes made to notebooks
+
+``` sh
+nbdev_export
+```
+
+Build Documentation
+
+``` sh
+nbdev_docs
+```
+
+See more options
+
+``` sh
+nbdev_help
+```
+
+See https://nbdev.fast.ai/ for more information on Nbdev.

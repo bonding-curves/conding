@@ -4,3 +4,4 @@ website:
       - index.ipynb
       - 0_dune.ipynb
       - 1_tec.ipynb
+      - 2_tec_analysis.ipynb
