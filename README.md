@@ -10,7 +10,7 @@ from conding.tec import TECDashboard
 
 tec = TECDashboard()
 
-tec.holders_distribution()
+tec.market_information.holders_distribution()
 ```
 
 <div>
@@ -133,7 +133,7 @@ tec.holders_distribution()
 </div>
 
 ``` python
-tec.abc_tributes()
+tec.abc_tributes.tribute_distribution()
 ```
 
 <div>
@@ -164,184 +164,177 @@ tec.abc_tributes()
     <tr>
       <th>0</th>
       <td>2022-04-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>56.364000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>364.927505</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2022-04-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>364.927505</td>
-      <td>95546.620837</td>
+      <td>2022-05-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>502.690920</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2022-05-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>502.690920</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>27525.756009</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2022-05-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>27525.756009</td>
-      <td>95546.620837</td>
+      <td>2022-06-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>18.424300</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2022-06-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>18.424300</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>9637.008165</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>2022-06-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>9637.008165</td>
-      <td>95546.620837</td>
+      <td>2022-07-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>46.280000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>6</th>
       <td>2022-07-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>46.280000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>875.231330</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>2022-07-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>875.231330</td>
-      <td>95546.620837</td>
+      <td>2022-08-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>84.000440</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>8</th>
       <td>2022-08-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>84.000440</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>3578.698760</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>2022-08-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>3578.698760</td>
-      <td>95546.620837</td>
+      <td>2022-09-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>440.034000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>10</th>
       <td>2022-09-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>440.034000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>6524.963118</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>2022-09-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>6524.963118</td>
-      <td>95546.620837</td>
+      <td>2022-10-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.448273</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>12</th>
       <td>2022-10-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>0.448273</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>7265.726778</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>2022-10-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>7265.726778</td>
-      <td>95546.620837</td>
+      <td>2022-11-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>42.080000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>14</th>
       <td>2022-11-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>42.080000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>7948.406669</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>2022-11-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>7948.406669</td>
-      <td>95546.620837</td>
+      <td>2022-12-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>1.260000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>16</th>
       <td>2022-12-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>1.260000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>6767.473366</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>17</th>
-      <td>2022-12-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>6767.473366</td>
-      <td>95546.620837</td>
+      <td>2023-01-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.310000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>18</th>
       <td>2023-01-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>0.310000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>3886.310413</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>2023-01-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>3886.310413</td>
-      <td>95546.620837</td>
+      <td>2023-02-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>0.100000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>20</th>
       <td>2023-02-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>0.100000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>4413.471438</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>2023-02-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>4413.471438</td>
-      <td>95546.620837</td>
+      <td>2023-03-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>3.100000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>22</th>
       <td>2023-03-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>3.100000</td>
-      <td>95546.620837</td>
+      <td>Sell</td>
+      <td>13877.419531</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>2023-03-01T00:00:00Z</td>
-      <td>Sell</td>
-      <td>13877.419531</td>
-      <td>95546.620837</td>
+      <td>2023-04-01T00:00:00Z</td>
+      <td>Buy</td>
+      <td>460.600000</td>
+      <td>96097.104858</td>
     </tr>
     <tr>
       <th>24</th>
       <td>2023-04-01T00:00:00Z</td>
-      <td>Buy</td>
-      <td>460.600000</td>
-      <td>95546.620837</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>2023-04-01T00:00:00Z</td>
       <td>Sell</td>
-      <td>1225.535821</td>
-      <td>95546.620837</td>
+      <td>1832.383842</td>
+      <td>96097.104858</td>
     </tr>
   </tbody>
 </table>
