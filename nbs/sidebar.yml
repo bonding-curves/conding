@@ -2,6 +2,48 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 0_dune.ipynb
-      - 1_tec.ipynb
-      - 2_tec_analysis.ipynb
+      - section: dune
+        contents:
+          - dune/0_dune.ipynb
+          - dune/1_tec.ipynb
+          - dune/2_tec_analysis.ipynb
+      - section: pamm
+        contents:
+          - section: bancor
+            contents:
+              - pamm/bancor/00_exponential.ipynb
+      - section: pamm
+        contents:
+          - section: bancor
+            contents:
+              - pamm/bancor/01_bancor.ipynb
+      - section: samm
+        contents:
+          - section: curve
+            contents:
+              - samm/curve/curve-crypto-whitepaper.ipynb
+      - section: samm
+        contents:
+          - section: curve
+            contents:
+              - samm/curve/curve-stableswap-curvesim.ipynb
+      - section: samm
+        contents:
+          - section: curve
+            contents:
+              - samm/curve/curve-stableswap-whitepaper-broken.ipynb
+      - section: samm
+        contents:
+          - section: uniswap
+            contents:
+              - samm/uniswap/0-uniswap-math.ipynb
+      - section: samm
+        contents:
+          - section: uniswap
+            contents:
+              - samm/uniswap/1-uniswap-mathv2.ipynb
+      - section: samm
+        contents:
+          - section: uniswap
+            contents:
+              - samm/uniswap/2-uniswap-analysis.ipynb
