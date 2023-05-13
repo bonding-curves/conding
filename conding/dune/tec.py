@@ -14,12 +14,14 @@ class TECDashboard(DuneWrapper):
     "Interface to the TEC Dune Analytics dashboard."
     
     def __init__(self):
+        super().__init__()
         self.market_information = self.MarketInformation()
         self.treasury_inflows_outflows = self.TreasuriesInflowsOutflows()
         self.reserves = self.Reserves()
         self.trades = self.Trades()
         self.abc_tributes = self.ABCTributes()
         self.conviction = self.Conviction()
+        self.bonding_curve = self.BondingCurve()
     
     class MarketInformation(DuneWrapper):
     
@@ -159,4 +161,18 @@ class TECDashboard(DuneWrapper):
         
         def tec_proposals(self, **params):
             df = self.refresh_into_dataframe(1849767, **params)
+            return df
+        
+    class BondingCurve(DuneWrapper):
+        
+        def total_liquidity_over_time_honeyswap(self, **params):
+            df = self.refresh_into_dataframe(2437505, **params)
+            return df
+        
+        def total_liquidity_over_time_honeyswap_aggregated(self, **params):
+            df = self.refresh_into_dataframe(2437591, **params)
+            return df
+        
+        def TEC_total_supply(self, **params):
+            df = self.refresh_into_dataframe(2422062, **params)
             return df
