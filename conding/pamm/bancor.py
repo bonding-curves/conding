@@ -37,7 +37,7 @@ class BondingCurve(pm.Parameterized):
         with pm.edit_constant(self):
             self.marketcap = self.price * self.supply
             self.reserve_ratio = self.reserve_balance / self.marketcap
-            self.param['mint_amount'].bounds = [-self.supply+1, self.param['supply'].softbounds[1]-self.supply]
+            self.param['mint_amount'].bounds = [-self.supply+1, None]
             self.n = ((1 / self.reserve_ratio) - 1)
             self.m = self.price / self.supply ** self.n
             if self.mint_amount == 0:
