@@ -57,11 +57,11 @@ class TECDashboard(DuneWrapper):
         
         def total_holders(self, **params)->float:
             """Number of TEC Holders."""
-            return self.holders_and_supply()['total_holders']
+            return self.holders_and_supply(**params)['total_holders']
         
         def supply(self, **params)->float:
             """TEC Supply."""
-            return self.holders_and_supply()['supply']
+            return self.holders_and_supply(**params)['supply']
         
         def holders_over_time(self, **params)->pd.DataFrame:
             """TEC holders over time."""
@@ -111,17 +111,30 @@ class TECDashboard(DuneWrapper):
 
         def reserve_pool(self, **params)->pd.Series:
             """Reserve pool information."""
+
+            # Ensure there is an end date in the future to get accurate results.
+            if type(params.get('params')) is list:
+                params['params'] += [{
+                "type": "date",
+                "name": "2. End Date",
+                "value": "2055-05-04 00:00:00",}]
+            else:
+                params['params'] = [{
+                "type": "date",
+                "name": "2. End Date",
+                "value": "2055-05-04 00:00:00",}]
+            
             df = self.refresh_into_dataframe(1752257, **params).iloc[0]
             return df
         
         def total_pool_value(self, **params)->float:
-            return self.reserve_pool()['total_pool_value']
+            return self.reserve_pool(**params)['total_pool_value']
         
         def reserve_pool_value(self, **params)->float:
-            return self.reserve_pool()['reserve_pool_value']
+            return self.reserve_pool(**params)['reserve_pool_value']
         
         def common_pool_value(self, **params)->float:
-            return self.reserve_pool()['common_pool_value']
+            return self.reserve_pool(**params)['common_pool_value']
         
         def commons_pool_balance_over_time(self, **params)->pd.DataFrame:
             """Common pool balance over time."""

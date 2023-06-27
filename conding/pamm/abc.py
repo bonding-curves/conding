@@ -24,6 +24,15 @@ class AugmentedBondingCurve(BondingCurve):
     def __init__(self, **params):
         super().__init__(**params)
         self.update_deposit()
+        self.set_bounds()
+        
+    def set_bounds(self):
+        self.param['supply'].softbounds = (self.supply/2, self.supply*1.5)
+        self.param['reserve_balance'].softbounds = (self.reserve_balance/2, self.reserve_balance*1.5)
+        self.param['common_pool'].softbounds = (self.common_pool/2, self.common_pool*1.5+100)
+        self.param['mint_amount'].step = 1
+        self.param['mint_amount'].softbounds = (-self.supply/5, self.supply/5)
+        self.mint_amount = 1
         
     @pm.depends('entry_tribute', 'exit_tribute', 'deposit', watch=True)
     def update_deposit(self):
@@ -47,7 +56,7 @@ class AugmentedBondingCurve(BondingCurve):
         super()._mint()
         
     def total_price_curve(self):
-        supply = np.linspace(*self.param['supply'].softbounds, num=1000)
+        supply = np.linspace(self.param['supply'].softbounds[0],self.param['supply'].softbounds[1]-1, num=1000)
         mint_amount = supply - self.supply
         deposit = self.get_balance_deposit(mint_amount)
         mint_total_price = deposit / (1 - self.entry_tribute) / mint_amount
