@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="x*y = k">
+
+<title>conding - Uniswap Constant Product AMM</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="conding - Uniswap Constant Product AMM">
+<meta property="og:description" content="\(x*y = k\)">
+<meta property="og:site-name" content="conding">
+<meta name="twitter:title" content="conding - Uniswap Constant Product AMM">
+<meta name="twitter:description" content="\(x*y = k\)">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">conding</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../samm/0-uniswap-math.html">samm</a></li><li class="breadcrumb-item"><a href="../samm/1-uniswap-mathv2.html">Uniswap Constant Product AMM</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">conding</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">dune</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/dune.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dune Dashboard Base Class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/tec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Dune Dashboard</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/tec_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Dune Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/a_tec_historic_arbitrage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Historic Arbitrage Depth Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/b_tec_historic_arbitrage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Historic Arbitrage Depth Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">pamm</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/exponential.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exponential Function</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/bancor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bancor Bonding Curve</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/abc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Augmented Bonding Curve</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">samm</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/0-uniswap-math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">0-uniswap-math.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/1-uniswap-mathv2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Uniswap Constant Product AMM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/2-uniswap-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment #0: Heatmap of y_out with constant x_in.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/3-curve-stableswap-curvesim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3-curve-stableswap-curvesim.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/4-curve-stableswap-whitepaper-broken.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4-curve-stableswap-whitepaper-broken.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#uniswap" id="toc-uniswap" class="nav-link active" data-scroll-target="#uniswap">Uniswap</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bonding-curves/conding/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Uniswap Constant Product AMM</h1>
+</div>
+
+<div>
+  <div class="description">
+    <span class="math inline">\(x*y = k\)</span>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<hr>
+<section id="uniswap" class="level3">
+<h3 class="anchored" data-anchor-id="uniswap">Uniswap</h3>
+<blockquote class="blockquote">
+<pre><code> Uniswap (**params)</code></pre>
+</blockquote>
+<p>params(K=Number, L=Number, _updating=Boolean, execution_price_x_y=Number, price_x_y=Number, swap=Action, switch_xy=Action, x=Number, x_in=Number, y=Number, y_out=Number, name=String) [1;32mParameters of ‘Uniswap’ ======================= [0m [1;31mParameters changed from their default values are marked in red.[0m [1;36mSoft bound values are marked in cyan.[0m C/V= Constant/Variable, RO/RW = ReadOnly/ReadWrite, AN=Allow None</p>
+<p>[1;34mName Value Type Bounds Mode [0m</p>
+<p>_updating False Boolean (0, 1) V RW K 0.0 Number (0, None) C RW L 0.0 Number (0,[1;36m 100[0m) V RW x 20 Number (0,[1;36m 100[0m) V RW y 80 Number (0,[1;36m 100[0m) V RW price_x_y 0.0 Number C RW execution_price_x_y 0.0 Number C RW x_in 1 Number ([1;36m-100[0m,[1;36m 100[0m) V RW y_out 0.0 Number C RW switch_xy &lt;function Uniswap.<lambda> at 0x7fdbb… Action V RW swap &lt;function Uniswap.<lambda> at 0x7fdba… Action V RW</lambda></lambda></p>
+<p>[1;32mParameter docstrings: =====================[0m</p>
+<p>[1;34m_updating: &lt; No docstring available &gt;[0m [1;31mK: &lt; No docstring available &gt;[0m [1;34mL: &lt; No docstring available &gt;[0m [1;31mx: &lt; No docstring available &gt;[0m [1;34my: &lt; No docstring available &gt;[0m [1;31mprice_x_y: &lt; No docstring available &gt;[0m [1;34mexecution_price_x_y: &lt; No docstring available &gt;[0m [1;31mx_in: &lt; No docstring available &gt;[0m [1;34my_out: &lt; No docstring available &gt;[0m [1;31mswitch_xy: &lt; No docstring available &gt;[0m [1;34mswap: &lt; No docstring available &gt;[0m</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pn.config.throttled <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>uniswap <span class="op">=</span> Uniswap()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>uniswap.view()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<div id="1002">
+  <div class="bk-root" id="f8790045-6a45-478a-8bce-fc7ec7427d59" data-root-id="1002"></div>
+</div>
+<script type="application/javascript">(function(root) {
+  function embed_document(root) {
+    var docs_json = {"ab470822-0118-4857-b6d5-9c8df3689b7c":{"defs":[{"extends":null,"module":null,"name":"ReactiveHTML1","overrides":[],"properties":[]},{"extends":null,"module":null,"name":"FlexBox1","overrides":[],"properties":[{"default":"flex-start","kind":null,"name":"align_content"},{"default":"flex-start","kind":null,"name":"align_items"},{"default":"row","kind":null,"name":"flex_direction"},{"default":"wrap","kind":null,"name":"flex_wrap"},{"default":"flex-start","kind":null,"name":"justify_content"}]},{"extends":null,"module":null,"name":"GridStack1","overrides":[],"properties":[{"default":"warn","kind":null,"name":"mode"},{"default":null,"kind":null,"name":"ncols"},{"default":null,"kind":null,"name":"nrows"},{"default":true,"kind":null,"name":"allow_resize"},{"default":true,"kind":null,"name":"allow_drag"},{"default":[],"kind":null,"name":"state"}]},{"extends":null,"module":null,"name":"click1","overrides":[],"properties":[{"default":"","kind":null,"name":"terminal_output"},{"default":"","kind":null,"name":"debug_name"},{"default":0,"kind":null,"name":"clears"}]},{"extends":null,"module":null,"name":"NotificationAreaBase1","overrides":[],"properties":[{"default":"bottom-right","kind":null,"name":"position"},{"default":0,"kind":null,"name":"_clear"}]},{"extends":null,"module":null,"name":"NotificationArea1","overrides":[],"properties":[{"default":[],"kind":null,"name":"notifications"},{"default":"bottom-right","kind":null,"name":"position"},{"default":0,"kind":null,"name":"_clear"},{"default":[{"background":"#ffc107","icon":{"className":"fas fa-exclamation-triangle","color":"white","tagName":"i"},"type":"warning"},{"background":"#007bff","icon":{"className":"fas fa-info-circle","color":"white","tagName":"i"},"type":"info"}],"kind":null,"name":"types"}]},{"extends":null,"module":null,"name":"Notification","overrides":[],"properties":[{"default":null,"kind":null,"name":"background"},{"default":3000,"kind":null,"name":"duration"},{"default":null,"kind":null,"name":"icon"},{"default":"","kind":null,"name":"message"},{"default":null,"kind":null,"name":"notification_type"},{"default":false,"kind":null,"name":"_destroyed"}]},{"extends":null,"module":null,"name":"TemplateActions1","overrides":[],"properties":[{"default":0,"kind":null,"name":"open_modal"},{"default":0,"kind":null,"name":"close_modal"}]},{"extends":null,"module":null,"name":"MaterialTemplateActions1","overrides":[],"properties":[{"default":0,"kind":null,"name":"open_modal"},{"default":0,"kind":null,"name":"close_modal"}]}],"roots":{"references":[{"attributes":{"label":{"value":"xy_end"},"renderers":[{"id":"1132"}]},"id":"1150","type":"LegendItem"},{"attributes":{},"id":"1147","type":"UnionRenderers"},{"attributes":{},"id":"1103","type":"Selection"},{"attributes":{"disabled":true,"margin":[5,10,5,10],"placeholder":"0","step":0.1,"title":"Execution price x y","value":3.80952380952381,"value_throttled":3.80952380952381},"id":"1010","type":"Spinner"},{"attributes":{"source":{"id":"1080"}},"id":"1087","type":"CDSView"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"purple"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"purple"},"line_alpha":{"value":0.1},"line_color":{"value":"purple"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1084","type":"Scatter"},{"attributes":{"callback":null,"renderers":[{"id":"1065"}],"tags":["hv_created"],"tooltips":[["x","@{x}"],["y","@{y}"]]},"id":"1018","type":"HoverTool"},{"attributes":{},"id":"1081","type":"Selection"},{"attributes":{"end":100,"reset_end":100,"reset_start":1,"start":1,"tags":[[["y","y",null]]]},"id":"1017","type":"Range1d"},{"attributes":{"coordinates":null,"data_source":{"id":"1080"},"glyph":{"id":"1083"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1085"},"nonselection_glyph":{"id":"1084"},"selection_glyph":{"id":"1101"},"view":{"id":"1087"}},"id":"1086","type":"GlyphRenderer"},{"attributes":{"coordinates":null,"group":null,"text":"Uniswap Math","text_color":"black","text_font_size":"12pt"},"id":"1023","type":"Title"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"purple"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"purple"},"line_alpha":{"value":0.2},"line_color":{"value":"purple"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1085","type":"Scatter"},{"attributes":{},"id":"1074","type":"UnionRenderers"},{"attributes":{"label":{"value":"Liquidity"},"renderers":[{"id":"1086"}]},"id":"1100","type":"LegendItem"},{"attributes":{"callback":null,"renderers":[{"id":"1086"},{"id":"1108"},{"id":"1132"}],"tags":["hv_created"],"tooltips":[["label","@{label}"],["x","@{x}"],["y","@{y}"]]},"id":"1019","type":"HoverTool"},{"attributes":{"fill_color":{"value":"purple"},"hatch_color":{"value":"purple"},"line_color":{"value":"purple"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1083","type":"Scatter"},{"attributes":{"below":[{"id":"1031"}],"center":[{"id":"1034"},{"id":"1038"},{"id":"1077"}],"height":640,"left":[{"id":"1035"}],"margin":[5,5,5,5],"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"name":"ParamMethod00806","renderers":[{"id":"1065"},{"id":"1086"},{"id":"1108"},{"id":"1132"}],"sizing_mode":"fixed","title":{"id":"1023"},"toolbar":{"id":"1045"},"width":580,"x_range":{"id":"1016"},"x_scale":{"id":"1027"},"y_range":{"id":"1017"},"y_scale":{"id":"1029"}},"id":"1022","subtype":"Figure","type":"Plot"},{"attributes":{"coordinates":null,"data_source":{"id":"1102"},"glyph":{"id":"1105"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1107"},"nonselection_glyph":{"id":"1106"},"selection_glyph":{"id":"1125"},"view":{"id":"1109"}},"id":"1108","type":"GlyphRenderer"},{"attributes":{"client_comm_id":"a42d07df992c45239934a112fc9427d5","comm_id":"8887a491ba984d68bfb0b0794421ec7f","plot_id":"1002"},"id":"1220","type":"panel.models.comm_manager.CommManager"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"green"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"green"},"line_alpha":{"value":0.2},"line_color":{"value":"green"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1107","type":"Scatter"},{"attributes":{"axis_label":"x","coordinates":null,"formatter":{"id":"1054"},"group":null,"major_label_policy":{"id":"1055"},"ticker":{"id":"1032"}},"id":"1031","type":"LinearAxis"},{"attributes":{"fill_color":{"value":"green"},"hatch_color":{"value":"green"},"line_color":{"value":"green"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1105","type":"Scatter"},{"attributes":{"icon":null,"label":"Swap","margin":[5,10,5,10],"subscribed_events":["button_click"]},"id":"1014","type":"Button"},{"attributes":{},"id":"1040","type":"PanTool"},{"attributes":{"label":{"value":"xy"},"renderers":[{"id":"1108"}]},"id":"1124","type":"LegendItem"},{"attributes":{"disabled":true,"margin":[5,10,5,10],"placeholder":"0","step":0.1,"title":"Y out","value":3.80952380952381,"value_throttled":3.80952380952381},"id":"1012","type":"Spinner"},{"attributes":{},"id":"1029","type":"LinearScale"},{"attributes":{"source":{"id":"1102"}},"id":"1109","type":"CDSView"},{"attributes":{},"id":"1032","type":"BasicTicker"},{"attributes":{"end":100,"reset_end":100,"reset_start":1,"start":1,"tags":[[["x","x",null]]]},"id":"1016","type":"Range1d"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"green"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"green"},"line_alpha":{"value":0.1},"line_color":{"value":"green"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1106","type":"Scatter"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"purple"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"purple"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"purple"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1101","type":"Scatter"},{"attributes":{"data":{"label":["Liquidity"],"x":{"__ndarray__":"AAAAAAAAREA=","dtype":"float64","order":"little","shape":[1]},"y":{"__ndarray__":"AAAAAAAAREA=","dtype":"float64","order":"little","shape":[1]}},"selected":{"id":"1081"},"selection_policy":{"id":"1097"}},"id":"1080","type":"ColumnDataSource"},{"attributes":{"axis":{"id":"1031"},"coordinates":null,"grid_line_color":null,"group":null,"ticker":null},"id":"1034","type":"Grid"},{"attributes":{},"id":"1121","type":"UnionRenderers"},{"attributes":{"children":[{"id":"1004"},{"id":"1005"},{"id":"1006"},{"id":"1007"},{"id":"1008"},{"id":"1009"},{"id":"1010"},{"id":"1011"},{"id":"1012"},{"id":"1013"},{"id":"1014"}],"margin":[5,5,5,5],"min_width":300,"name":"Uniswap","width":300},"id":"1003","type":"Column"},{"attributes":{},"id":"1055","type":"AllLabels"},{"attributes":{"fill_color":{"value":"orange"},"hatch_color":{"value":"orange"},"line_color":{"value":"orange"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1129","type":"Scatter"},{"attributes":{"axis_label":"y","coordinates":null,"formatter":{"id":"1057"},"group":null,"major_label_policy":{"id":"1058"},"ticker":{"id":"1036"}},"id":"1035","type":"LinearAxis"},{"attributes":{"line_alpha":0.1,"line_color":"purple","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1063","type":"Line"},{"attributes":{"axis":{"id":"1035"},"coordinates":null,"dimension":1,"grid_line_color":null,"group":null,"ticker":null},"id":"1038","type":"Grid"},{"attributes":{},"id":"1036","type":"BasicTicker"},{"attributes":{},"id":"1041","type":"WheelZoomTool"},{"attributes":{},"id":"1027","type":"LinearScale"},{"attributes":{},"id":"1039","type":"SaveTool"},{"attributes":{"overlay":{"id":"1044"}},"id":"1042","type":"BoxZoomTool"},{"attributes":{"disabled":true,"low":0,"margin":[5,10,5,10],"placeholder":"0","step":0.1,"title":"K","value":1600,"value_throttled":1600},"id":"1005","type":"Spinner"},{"attributes":{},"id":"1043","type":"ResetTool"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"orange"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"orange"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"orange"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1151","type":"Scatter"},{"attributes":{"bottom_units":"screen","coordinates":null,"fill_alpha":0.5,"fill_color":"lightgrey","group":null,"left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1044","type":"BoxAnnotation"},{"attributes":{"line_color":"purple","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1079","type":"Line"},{"attributes":{},"id":"1054","type":"BasicTickFormatter"},{"attributes":{"label":{"value":"xy=k"},"renderers":[{"id":"1065"}]},"id":"1078","type":"LegendItem"},{"attributes":{"line_color":"purple","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1062","type":"Line"},{"attributes":{"data":{"label":["xy"],"x":{"__ndarray__":"AAAAAAAANEA=","dtype":"float64","order":"little","shape":[1]},"y":{"__ndarray__":"AAAAAAAAVEA=","dtype":"float64","order":"little","shape":[1]}},"selected":{"id":"1103"},"selection_policy":{"id":"1121"}},"id":"1102","type":"ColumnDataSource"},{"attributes":{},"id":"1058","type":"AllLabels"},{"attributes":{"angle":{"value":0.0},"fill_alpha":{"value":1.0},"fill_color":{"value":"green"},"hatch_alpha":{"value":1.0},"hatch_color":{"value":"green"},"hatch_scale":{"value":12.0},"hatch_weight":{"value":1.0},"line_alpha":{"value":1.0},"line_cap":{"value":"butt"},"line_color":{"value":"green"},"line_dash":{"value":[]},"line_dash_offset":{"value":0},"line_join":{"value":"bevel"},"line_width":{"value":1},"marker":{"value":"circle"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1125","type":"Scatter"},{"attributes":{"children":[{"id":"1022"}],"margin":[0,0,0,0],"name":"Row00810","sizing_mode":"fixed"},"id":"1015","type":"Row"},{"attributes":{"data":{"x":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[1000]},"y":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[1000]}},"selected":{"id":"1060"},"selection_policy":{"id":"1074"}},"id":"1059","type":"ColumnDataSource"},{"attributes":{"coordinates":null,"data_source":{"id":"1059"},"glyph":{"id":"1062"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1064"},"nonselection_glyph":{"id":"1063"},"selection_glyph":{"id":"1079"},"view":{"id":"1066"}},"id":"1065","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"orange"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"orange"},"line_alpha":{"value":0.2},"line_color":{"value":"orange"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1131","type":"Scatter"},{"attributes":{},"id":"1057","type":"BasicTickFormatter"},{"attributes":{"icon":null,"label":"Switch xy","margin":[5,10,5,10],"subscribed_events":["button_click"]},"id":"1013","type":"Button"},{"attributes":{"line_alpha":0.2,"line_color":"purple","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1064","type":"Line"},{"attributes":{"reload":false},"id":"1269","type":"panel.models.location.Location"},{"attributes":{"end":100,"margin":[5,10,5,10],"start":-19,"step":0.1,"title":"X in","value":1},"id":"1011","type":"Slider"},{"attributes":{"disabled":true,"margin":[5,10,5,10],"placeholder":"0","step":0.1,"title":"Price x y","value":4.0,"value_throttled":4.0},"id":"1009","type":"Spinner"},{"attributes":{},"id":"1060","type":"Selection"},{"attributes":{"end":100,"margin":[5,10,5,10],"start":1,"title":"X","value":20},"id":"1007","type":"Slider"},{"attributes":{"end":100,"margin":[5,10,5,10],"start":1,"title":"Y","value":80},"id":"1008","type":"Slider"},{"attributes":{"click_policy":"mute","coordinates":null,"group":null,"items":[{"id":"1078"},{"id":"1100"},{"id":"1124"},{"id":"1150"}]},"id":"1077","type":"Legend"},{"attributes":{"end":100,"margin":[5,10,5,10],"start":1,"title":"L","value":40.0},"id":"1006","type":"Slider"},{"attributes":{},"id":"1097","type":"UnionRenderers"},{"attributes":{"source":{"id":"1059"}},"id":"1066","type":"CDSView"},{"attributes":{},"id":"1127","type":"Selection"},{"attributes":{"children":[{"id":"1003"},{"id":"1015"}],"margin":[0,0,0,0],"name":"Row01091"},"id":"1002","type":"Row"},{"attributes":{"data":{"label":["xy_end"],"x":{"__ndarray__":"AAAAAAAANUA=","dtype":"float64","order":"little","shape":[1]},"y":{"__ndarray__":"wzAMwzAMU0A=","dtype":"float64","order":"little","shape":[1]}},"selected":{"id":"1127"},"selection_policy":{"id":"1147"}},"id":"1126","type":"ColumnDataSource"},{"attributes":{"margin":[5,10,5,10],"name":"","text":"<b>Uniswap</b>"},"id":"1004","type":"Div"},{"attributes":{"active_drag":{"id":"1040"},"active_scroll":{"id":"1041"},"tools":[{"id":"1018"},{"id":"1019"},{"id":"1039"},{"id":"1040"},{"id":"1041"},{"id":"1042"},{"id":"1043"}]},"id":"1045","type":"Toolbar"},{"attributes":{"coordinates":null,"data_source":{"id":"1126"},"glyph":{"id":"1129"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1131"},"nonselection_glyph":{"id":"1130"},"selection_glyph":{"id":"1151"},"view":{"id":"1133"}},"id":"1132","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1126"}},"id":"1133","type":"CDSView"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"orange"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"orange"},"line_alpha":{"value":0.1},"line_color":{"value":"orange"},"size":{"value":10.954451150103322},"x":{"field":"x"},"y":{"field":"y"}},"id":"1130","type":"Scatter"}],"root_ids":["1002","1220","1269"]},"title":"Bokeh Application","version":"2.4.3"}};
+    var render_items = [{"docid":"ab470822-0118-4857-b6d5-9c8df3689b7c","root_ids":["1002"],"roots":{"1002":"f8790045-6a45-478a-8bce-fc7ec7427d59"}}];
+    root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+    for (const render_item of render_items) {
+      for (const root_id of render_item.root_ids) {
+    const id_el = document.getElementById(root_id)
+    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+      const root_el = id_el.children[0]
+      root_el.id = root_el.id + '-rendered'
+    }
+      }
+    }
+  }
+  if (root.Bokeh !== undefined && root.Bokeh.Panel !== undefined) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined && root.Bokeh.Panel !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else if (document.readyState == "complete") {
+        attempts++;
+        if (attempts > 200) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 25, root)
+  }
+})(window);</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

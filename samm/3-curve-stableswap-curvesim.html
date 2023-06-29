@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>conding – curve-stableswap-curvesim</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">conding</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../samm/0-uniswap-math.html">samm</a></li><li class="breadcrumb-item"><a href="../samm/3-curve-stableswap-curvesim.html">3-curve-stableswap-curvesim.html</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">conding</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">dune</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/dune.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dune Dashboard Base Class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/tec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Dune Dashboard</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/tec_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Dune Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/a_tec_historic_arbitrage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Historic Arbitrage Depth Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dune/b_tec_historic_arbitrage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TEC Historic Arbitrage Depth Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">pamm</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/exponential.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exponential Function</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/bancor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bancor Bonding Curve</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pamm/abc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Augmented Bonding Curve</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">samm</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/0-uniswap-math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">0-uniswap-math.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/1-uniswap-mathv2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uniswap Constant Product AMM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/2-uniswap-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment #0: Heatmap of y_out with constant x_in.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/3-curve-stableswap-curvesim.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">3-curve-stableswap-curvesim.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../samm/4-curve-stableswap-whitepaper-broken.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4-curve-stableswap-whitepaper-broken.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<p>https://classic.curve.fi/files/stableswap-paper.pdf</p>
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<ul>
+<li>Uniswap with Leverage</li>
+<li>Fiat Savings Account for Liquidity Providers</li>
+<li>100X lower slippage than uniswap on stablecoins</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="fl">0.004</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>40000000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="fl">0.5</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>5000000000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gmpy2 <span class="im">import</span> mpz</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> param <span class="im">as</span> pm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CurvePool(pm.Parameterized):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> pm.Integer(doc<span class="op">=</span><span class="st">"Amplification Coefficient."</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    _D <span class="op">=</span> pm.Integer(doc<span class="op">=</span><span class="st">"Virtual total balance or pool coin balances in native token units."</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> pm.Integer(doc<span class="op">=</span><span class="st">"Number of coins."</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    rates <span class="op">=</span> pm.List(item_type<span class="op">=</span><span class="bu">int</span>, doc<span class="op">=</span><span class="st">"Precision and rate adjustments."</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> pm.Integer(doc<span class="op">=</span><span class="st">"LP token supply."</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    fee <span class="op">=</span> pm.Integer(<span class="dv">40000000</span>, doc<span class="op">=</span><span class="st">"Fee with 10**10 precision."</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    fee_mul <span class="op">=</span> pm.Integer(doc<span class="op">=</span><span class="st">"Fee multiplier for dynamic fee pools."</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    admin_fee <span class="op">=</span> pm.Integer(<span class="dv">5000000000</span>, doc<span class="op">=</span><span class="st">"Percentage of fee with 10**10 precision."</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    balances <span class="op">=</span> pm.List(item_type<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, <span class="op">**</span>params):</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(<span class="op">**</span>params)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.balances <span class="op">=</span> [<span class="va">self</span>._D <span class="op">//</span> n <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> _p <span class="cf">for</span> _p <span class="kw">in</span> <span class="va">self</span>.rates]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="va">self</span>.tokens <span class="kw">or</span> <span class="va">self</span>.D()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.r <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_total <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.admin_balances <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="va">self</span>.n</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _xp(<span class="va">self</span>):</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._xp_mem(<span class="va">self</span>.rates, <span class="va">self</span>.balances)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _xp_mem(<span class="va">self</span>, rates, balances):</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [x <span class="op">*</span> p <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="cf">for</span> x, p <span class="kw">in</span> <span class="bu">zip</span>(balances, rates)]</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> D(<span class="va">self</span>, xp<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        xp <span class="op">=</span> xp <span class="kw">or</span> <span class="va">self</span>._xp()</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.get_D(xp, <span class="va">self</span>.A)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_D(<span class="va">self</span>, xp, A):</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        Dprev <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        S <span class="op">=</span> <span class="bu">sum</span>(xp)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> S</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        Ann <span class="op">=</span> A <span class="op">*</span> n</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> mpz(D)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>        Ann <span class="op">=</span> mpz(Ann)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">abs</span>(D <span class="op">-</span> Dprev) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>            D_P <span class="op">=</span> D</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> x <span class="kw">in</span> xp:</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>                D_P <span class="op">=</span> D_P <span class="op">*</span> D <span class="op">//</span> (n <span class="op">*</span> x)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>            Dprev <span class="op">=</span> D</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>            D <span class="op">=</span> (Ann <span class="op">*</span> S <span class="op">+</span> D_P <span class="op">*</span> n) <span class="op">*</span> D <span class="op">//</span> ((Ann <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> D <span class="op">+</span> (n <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> D_P)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> <span class="bu">int</span>(D)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> D</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_D_mem(<span class="va">self</span>, balances, A):</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        xp <span class="op">=</span> [x <span class="op">*</span> p <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="cf">for</span> x, p <span class="kw">in</span> <span class="bu">zip</span>(balances, <span class="va">self</span>.rates)]</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.get_D(xp, A)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_y(<span class="va">self</span>, i, j, x, xp):</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>        xx <span class="op">=</span> xp[:]</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> <span class="va">self</span>.D(xx)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> mpz(D)</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        xx[i] <span class="op">=</span> x  <span class="co"># x is quantity of underlying asset brought to 1e18 precision</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>        xx <span class="op">=</span> [xx[k] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n) <span class="cf">if</span> k <span class="op">!=</span> j]</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>        Ann <span class="op">=</span> <span class="va">self</span>.A <span class="op">*</span> n</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> D</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> y <span class="kw">in</span> xx:</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> c <span class="op">*</span> D <span class="op">//</span> (y <span class="op">*</span> n)</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> c <span class="op">*</span> D <span class="op">//</span> (n <span class="op">*</span> Ann)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> <span class="bu">sum</span>(xx) <span class="op">+</span> D <span class="op">//</span> Ann <span class="op">-</span> D</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        y_prev <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> D</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">abs</span>(y <span class="op">-</span> y_prev) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>            y_prev <span class="op">=</span> y</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> (y<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> c) <span class="op">//</span> (<span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> b)</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="bu">int</span>(y)</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_y_D(<span class="va">self</span>, A, i, xp, D):</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> mpz(D)</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>        xx <span class="op">=</span> [xp[k] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n) <span class="cf">if</span> k <span class="op">!=</span> i]</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>        S <span class="op">=</span> <span class="bu">sum</span>(xx)</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>        Ann <span class="op">=</span> A <span class="op">*</span> n</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> D</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> y <span class="kw">in</span> xx:</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> c <span class="op">*</span> D <span class="op">//</span> (y <span class="op">*</span> n)</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> c <span class="op">*</span> D <span class="op">//</span> (n <span class="op">*</span> Ann)</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> S <span class="op">+</span> D <span class="op">//</span> Ann</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>        y_prev <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> D</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">abs</span>(y <span class="op">-</span> y_prev) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>            y_prev <span class="op">=</span> y</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> (y<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> c) <span class="op">//</span> (<span class="dv">2</span> <span class="op">*</span> y <span class="op">+</span> b <span class="op">-</span> D)</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="bu">int</span>(y)</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> exchange(<span class="va">self</span>, i, j, dx):</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>        xp <span class="op">=</span> <span class="va">self</span>._xp()</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xp[i] <span class="op">+</span> dx <span class="op">*</span> <span class="va">self</span>.rates[i] <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="va">self</span>.get_y(i, j, x, xp)</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>        dy <span class="op">=</span> xp[j] <span class="op">-</span> y <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.fee_mul <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>            fee <span class="op">=</span> dy <span class="op">*</span> <span class="va">self</span>.fee <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>            fee <span class="op">=</span> dy <span class="op">*</span> <span class="va">self</span>.dynamic_fee((xp[i] <span class="op">+</span> x) <span class="op">//</span> <span class="dv">2</span>, (xp[j] <span class="op">+</span> y) <span class="op">//</span> <span class="dv">2</span>) <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>        admin_fee <span class="op">=</span> fee <span class="op">*</span> <span class="va">self</span>.admin_fee <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert all to real units</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>        rate <span class="op">=</span> <span class="va">self</span>.rates[j]</span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>        dy <span class="op">=</span> (dy <span class="op">-</span> fee) <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> rate</span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>        fee <span class="op">=</span> fee <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> rate</span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>        admin_fee <span class="op">=</span> admin_fee <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> rate</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> dy <span class="op">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.balances[i] <span class="op">+=</span> dx</span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.balances[j] <span class="op">-=</span> dy <span class="op">+</span> admin_fee</span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.admin_balances[j] <span class="op">+=</span> admin_fee</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> dy, fee</span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calc_withdraw_one_coin(<span class="va">self</span>, token_amount, i, use_fee<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>        A <span class="op">=</span> <span class="va">self</span>.A</span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>        xp <span class="op">=</span> <span class="va">self</span>._xp()</span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>        D0 <span class="op">=</span> <span class="va">self</span>.D()</span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>        D1 <span class="op">=</span> D0 <span class="op">-</span> token_amount <span class="op">*</span> D0 <span class="op">//</span> <span class="va">self</span>.tokens</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>        new_y <span class="op">=</span> <span class="va">self</span>.get_y_D(A, i, xp, D1)</span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>        dy_before_fee <span class="op">=</span> (xp[i] <span class="op">-</span> new_y) <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> <span class="va">self</span>.rates[i]</span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>        xp_reduced <span class="op">=</span> xp</span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.fee <span class="kw">and</span> use_fee:</span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>            n_coins <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>            _fee <span class="op">=</span> <span class="va">self</span>.fee <span class="op">*</span> n_coins <span class="op">//</span> (<span class="dv">4</span> <span class="op">*</span> (n_coins <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_coins):</span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>                dx_expected <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> j <span class="op">==</span> i:</span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>                    dx_expected <span class="op">=</span> xp[j] <span class="op">*</span> D1 <span class="op">//</span> D0 <span class="op">-</span> new_y</span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>                    dx_expected <span class="op">=</span> xp[j] <span class="op">-</span> xp[j] <span class="op">*</span> D1 <span class="op">//</span> D0</span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>                xp_reduced[j] <span class="op">-=</span> _fee <span class="op">*</span> dx_expected <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>        dy <span class="op">=</span> xp[i] <span class="op">-</span> <span class="va">self</span>.get_y_D(A, i, xp_reduced, D1)</span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>        dy <span class="op">=</span> (dy <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> <span class="va">self</span>.rates[i]</span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> use_fee:</span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>            dy_fee <span class="op">=</span> dy_before_fee <span class="op">-</span> dy</span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> dy, dy_fee</span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> dy</span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_liquidity(<span class="va">self</span>, amounts):</span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>        mint_amount, fees <span class="op">=</span> <span class="va">self</span>.calc_token_amount(amounts, use_fee<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokens <span class="op">+=</span> mint_amount</span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>        balances <span class="op">=</span> <span class="va">self</span>.balances</span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>        afee <span class="op">=</span> <span class="va">self</span>.admin_fee</span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>        admin_fees <span class="op">=</span> [f <span class="op">*</span> afee <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span> <span class="cf">for</span> f <span class="kw">in</span> fees]</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>        new_balances <span class="op">=</span> [</span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>            bal <span class="op">+</span> amt <span class="op">-</span> fee <span class="cf">for</span> bal, amt, fee <span class="kw">in</span> <span class="bu">zip</span>(balances, amounts, admin_fees)</span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.balances <span class="op">=</span> new_balances</span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.admin_balances <span class="op">=</span> [t <span class="op">+</span> a <span class="cf">for</span> t, a <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.admin_balances, admin_fees)]</span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mint_amount</span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> remove_liquidity_one_coin(<span class="va">self</span>, token_amount, i):</span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>        dy, dy_fee <span class="op">=</span> <span class="va">self</span>.calc_withdraw_one_coin(token_amount, i, use_fee<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>        admin_fee <span class="op">=</span> dy_fee <span class="op">*</span> <span class="va">self</span>.admin_fee <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.balances[i] <span class="op">-=</span> dy <span class="op">+</span> admin_fee</span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.admin_balances[i] <span class="op">+=</span> admin_fee</span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokens <span class="op">-=</span> token_amount</span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> dy, dy_fee</span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calc_token_amount(<span class="va">self</span>, amounts, use_fee<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>        A <span class="op">=</span> <span class="va">self</span>.A</span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>        old_balances <span class="op">=</span> <span class="va">self</span>.balances</span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>        D0 <span class="op">=</span> <span class="va">self</span>.get_D_mem(old_balances, A)</span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>        new_balances <span class="op">=</span> <span class="va">self</span>.balances[:]</span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.n):</span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>            new_balances[i] <span class="op">+=</span> amounts[i]</span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>        D1 <span class="op">=</span> <span class="va">self</span>.get_D_mem(new_balances, A)</span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>        mint_balances <span class="op">=</span> new_balances[:]</span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> use_fee:</span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>            _fee <span class="op">=</span> <span class="va">self</span>.fee <span class="op">*</span> <span class="va">self</span>.n <span class="op">//</span> (<span class="dv">4</span> <span class="op">*</span> (<span class="va">self</span>.n <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>            fees <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="va">self</span>.n</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.n):</span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>                ideal_balance <span class="op">=</span> D1 <span class="op">*</span> old_balances[i] <span class="op">//</span> D0</span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>                difference <span class="op">=</span> <span class="bu">abs</span>(ideal_balance <span class="op">-</span> new_balances[i])</span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>                fees[i] <span class="op">=</span> _fee <span class="op">*</span> difference <span class="op">//</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>                mint_balances[i] <span class="op">-=</span> fees[i]</span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>        D2 <span class="op">=</span> <span class="va">self</span>.get_D_mem(mint_balances, A)</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>        mint_amount <span class="op">=</span> <span class="va">self</span>.tokens <span class="op">*</span> (D2 <span class="op">-</span> D0) <span class="op">//</span> D0</span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> use_fee:</span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> mint_amount, fees</span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mint_amount</span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_virtual_price(<span class="va">self</span>):</span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.D() <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">18</span> <span class="op">//</span> <span class="va">self</span>.tokens</span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dynamic_fee(<span class="va">self</span>, xpi, xpj):</span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>        xps2 <span class="op">=</span> xpi <span class="op">+</span> xpj</span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>        xps2 <span class="op">*=</span> xps2  <span class="co"># Doing just ** 2 can overflow apparently</span></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="va">self</span>.fee_mul <span class="op">*</span> <span class="va">self</span>.fee) <span class="op">//</span> (</span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>            (<span class="va">self</span>.fee_mul <span class="op">-</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span>) <span class="op">*</span> <span class="dv">4</span> <span class="op">*</span> xpi <span class="op">*</span> xpj <span class="op">//</span> xps2 <span class="op">+</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dydxfee(<span class="va">self</span>, i, j):</span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.dydx(i, j, use_fee<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dydx(<span class="va">self</span>, i, j, use_fee<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>        xp <span class="op">=</span> <span class="va">self</span>._xp()</span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._dydx(i, j, xp, use_fee)</span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _dydx(<span class="va">self</span>, i, j, xp, use_fee):</span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>        xi <span class="op">=</span> xp[i]</span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>        xj <span class="op">=</span> xp[j]</span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.n</span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>        A <span class="op">=</span> <span class="va">self</span>.A</span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> <span class="va">self</span>.D(xp)</span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>        D_pow <span class="op">=</span> mpz(D) <span class="op">**</span> (n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>        x_prod <span class="op">=</span> prod(xp)</span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a>        A_pow <span class="op">=</span> A <span class="op">*</span> n <span class="op">**</span> (n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a>        dydx <span class="op">=</span> (xj <span class="op">*</span> (xi <span class="op">*</span> A_pow <span class="op">*</span> x_prod <span class="op">+</span> D_pow)) <span class="op">/</span> (</span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a>            xi <span class="op">*</span> (xj <span class="op">*</span> A_pow <span class="op">*</span> x_prod <span class="op">+</span> D_pow)</span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> use_fee:</span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.fee_mul <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a>                fee_factor <span class="op">=</span> <span class="va">self</span>.fee <span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a>                fee_factor <span class="op">=</span> <span class="va">self</span>.dynamic_fee(xi, xj) <span class="op">/</span> <span class="dv">10</span><span class="op">**</span><span class="dv">10</span></span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a>            fee_factor <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a>        dydx <span class="op">*=</span> <span class="dv">1</span> <span class="op">-</span> fee_factor</span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(dydx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cp <span class="op">=</span> CurvePool()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cp.D()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mpz?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">Init signature:</span> mpz<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">/</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>     
+mpz() -&gt; mpz(0)
+     If no argument is given, return mpz(0).
+mpz(n) -&gt; mpz
+     Return an 'mpz' object with a numeric value 'n' (truncating n
+     to its integer part if it's a Fraction, 'mpq', float or 'mpfr').
+mpz(s[, base=0]):
+     Return an 'mpz' object from a string 's' made of digits in the
+     given base.  If base=0, binary, octal, or hex Python strings
+     are recognized by leading 0b, 0o, or 0x characters, otherwise
+     the string is assumed to be decimal. Values for base can range
+     between 2 and 62.
+<span class="ansi-red-fg">Type:</span>           type
+<span class="ansi-red-fg">Subclasses:</span>     </pre>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pm.List?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+
+<pre><span class="ansi-red-fg">Init signature:</span>
+pm<span class="ansi-blue-fg">.</span>List<span class="ansi-blue-fg">(</span>
+    default<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
+    class_<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    item_type<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    instantiate<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    bounds<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+    <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>     
+Parameter whose value is a list of objects, usually of a specified type.
+The bounds allow a minimum and/or maximum length of
+list to be enforced.  If the item_type is non-None, all
+items in the list are checked to be of that type.
+`class_` is accepted as an alias for `item_type`, but is
+deprecated due to conflict with how the `class_` slot is
+used in Selector classes.
+<span class="ansi-red-fg">Init docstring:</span>
+Initialize a new Parameter object and store the supplied attributes:
+default: the owning class's value for the attribute represented
+by this Parameter, which can be overridden in an instance.
+doc: docstring explaining what this parameter represents.
+label: optional text label to be used when this Parameter is
+shown in a listing. If no label is supplied, the attribute name
+for this parameter in the owning Parameterized object is used.
+precedence: a numeric value, usually in the range 0.0 to 1.0,
+which allows the order of Parameters in a class to be defined in
+a listing or e.g. in GUI menus. A negative precedence indicates
+a parameter that should be hidden in such listings.
+instantiate: controls whether the value of this Parameter will
+be deepcopied when a Parameterized object is instantiated (if
+True), or if the single default value will be shared by all
+Parameterized instances (if False). For an immutable Parameter
+value, it is best to leave instantiate at the default of
+False, so that a user can choose to change the value at the
+Parameterized instance level (affecting only that instance) or
+at the Parameterized class or superclass level (affecting all
+existing and future instances of that class or superclass). For
+a mutable Parameter value, the default of False is also appropriate
+if you want all instances to share the same value state, e.g. if
+they are each simply referring to a single global object like
+a singleton. If instead each Parameterized should have its own
+independently mutable value, instantiate should be set to
+True, but note that there is then no simple way to change the
+value of this Parameter at the class or superclass level,
+because each instance, once created, will then have an
+independently instantiated value.
+constant: if true, the Parameter value can be changed only at
+the class level or in a Parameterized constructor call. The
+value is otherwise constant on the Parameterized instance,
+once it has been constructed.
+readonly: if true, the Parameter value cannot ordinarily be
+changed by setting the attribute at the class or instance
+levels at all. The value can still be changed in code by
+temporarily overriding the value of this slot and then
+restoring it, which is useful for reporting values that the
+_user_ should never change but which do change during code
+execution.
+pickle_default_value: whether the default value should be
+pickled. Usually, you would want the default value to be pickled,
+but there are rare cases where that would not be the case (e.g.
+for file search paths that are specific to a certain system).
+per_instance: whether a separate Parameter instance will be
+created for every Parameterized instance. True by default.
+If False, all instances of a Parameterized class will share
+the same Parameter object, including all validation
+attributes (bounds, etc.). See also instantiate, which is
+conceptually similar but affects the Parameter value rather
+than the Parameter object.
+allow_None: if True, None is accepted as a valid value for
+this Parameter, in addition to any other values that are
+allowed. If the default value is defined as None, allow_None
+is set to True automatically.
+default, doc, and precedence all default to None, which allows
+inheritance of Parameter slots (attributes) from the owning-class'
+class hierarchy (see ParameterizedMetaclass).
+<span class="ansi-red-fg">File:</span>           ~/.cache/pypoetry/virtualenvs/bonding-curve-models-DkitZayp-py3.10/lib/python3.10/site-packages/param/__init__.py
+<span class="ansi-red-fg">Type:</span>           ParameterMetaclass
+<span class="ansi-red-fg">Subclasses:</span>     HookList</pre>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bonding-curves/conding/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
