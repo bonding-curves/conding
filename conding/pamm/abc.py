@@ -32,7 +32,6 @@ class AugmentedBondingCurve(BondingCurve):
         self.param['common_pool'].softbounds = (self.common_pool/2, self.common_pool*1.5+100)
         self.param['mint_amount'].step = 1
         self.param['mint_amount'].softbounds = (-self.supply/5, self.supply/5)
-        self.mint_amount = 1
         
     @pm.depends('entry_tribute', 'exit_tribute', 'deposit', watch=True)
     def update_deposit(self):
